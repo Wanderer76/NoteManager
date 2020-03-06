@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>ScrollAreas.qml</file>
+        <file>plus.svg</file>
+        <file>tick.svg</file>
+        <file>ButtonAdd.qml</file>
+    </qresource>
+</RCC>
