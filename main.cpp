@@ -13,6 +13,9 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+    app.setOrganizationName("ArtyomCompany");
+        app.setOrganizationDomain("temacompany.com");
+        app.setApplicationName("NoteManager");
     engine.load(url);
 
     return app.exec();

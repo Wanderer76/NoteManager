@@ -6,5 +6,6 @@
         <file>plus.svg</file>
         <file>tick.svg</file>
         <file>ButtonAdd.qml</file>
+        <file>paper.png</file>
     </qresource>
 </RCC>

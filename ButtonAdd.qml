@@ -1,10 +1,11 @@
 import QtQuick 2.0
 import QtQuick.Controls.Material 2.12
-import QtQuick.Controls.Styles 1.4
 
 Rectangle {
+ //   property alias buttonAdd: mouse
     id: addButton
-    opacity: mouse.pressed ? 0.2 : 1
+
+
     Image {
         id: image
         source: "qrc:/plus.svg"
@@ -14,13 +15,4 @@ Rectangle {
         smooth: true
     }
 
-    MouseArea {
-        id: mouse
-        anchors.fill: addButton
-        onClicked: {
-            scrollAreas.list.append({
-                                        "root": "item1"
-                                    })
-        }
-    }
 }

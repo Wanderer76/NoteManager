@@ -1,31 +1,30 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
-import QtQuick.Controls.Styles 1.4
 
 ScrollView {
     anchors.fill: parent
     ScrollBar.vertical.interactive: true
-
+    anchors.topMargin: 15
     property alias list: listModel
     ListView {
-
         width: parent.width
         layoutDirection: Qt.LeftToRight
+        anchors.topMargin: 10
+
         model: ListModel {
             id: listModel
         }
         delegate: Rectangle {
-            border.width: 1
             id: root
-            property alias task: taskText
-
+            border.width: 1
             width: parent.width
-            height: 140
-            opacity: checkBox.checkState === Qt.Checked ? 0.1 : 1
+            height: 100
+            opacity: checkBox.checkState === Qt.Checked ? 0.5 : 1
             color: Material.background
             task.enabled: checkBox.checkState === Qt.Checked ? false : true
 
+            property alias task: taskText
             property alias isChecked: checkBox
 
             MouseArea {
@@ -46,15 +45,17 @@ ScrollView {
                 width: 50
                 anchors.verticalCenter: parent.verticalCenter
             }
-            TextEdit {
+            TextInput {
                 id: taskText
                 anchors.left: checkBox.right
-                width: parent.width - button.width + 10
+                width: parent.width - (button.width * 3)
                 height: checkBox.height
-                color: Material.foreground
-                text: "Item " + (index + 1)
-                textFormat: Text.PlainText
-                wrapMode: Text.WrapAnywhere
+                color: Material.toolTextColor
+                maximumLength: 45
+                text: idText
+                selectByMouse: true
+                font.weight: Font.Normal
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 font.family: "Yu Gothic UI Semibold"
                 font.pointSize: 15
                 horizontalAlignment: Text.AlignLeft
@@ -62,8 +63,10 @@ ScrollView {
                 renderType: Text.NativeRendering
                 anchors.verticalCenter: parent.verticalCenter
                 enabled: false
+                onTextChanged: {
+                    button.visible = true
+                }
             }
-
             Rectangle {
                 id: button
                 height: root.height - 10
@@ -71,14 +74,14 @@ ScrollView {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 4
-                color: Material.color(Material.DeepPurple)
+                color: Material.color(Material.Green)
                 opacity: mouse.pressed ? 0.6 : 1
-
+                visible: false
                 Image {
                     id: image
                     source: "qrc:/tick.svg"
                     anchors.fill: button
-                    scale: 0.8
+                    scale: 0.6
                     antialiasing: true
                     smooth: true
                 }
@@ -89,6 +92,8 @@ ScrollView {
                     anchors.fill: button
                     onClicked: {
                         taskText.enabled = false
+                        button.visible = false
+                        idText = taskText.text
                     }
                 }
             }
