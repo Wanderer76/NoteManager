@@ -7,7 +7,9 @@ ScrollView {
     ScrollBar.vertical.interactive: true
     anchors.topMargin: 15
     property alias list: listModel
+    property alias viewNotes: view
     ListView {
+        id: view
         width: parent.width
         layoutDirection: Qt.LeftToRight
         anchors.topMargin: 10
@@ -15,6 +17,7 @@ ScrollView {
         model: ListModel {
             id: listModel
         }
+
         delegate: Rectangle {
             id: root
             border.width: 1
@@ -28,13 +31,17 @@ ScrollView {
             property alias isChecked: checkBox
 
             MouseArea {
+                id: delegMouse
                 anchors.fill: root
                 enabled: checkBox.checkState === Qt.Checked ? false : true
-                onDoubleClicked: {
+                onClicked: {
                     taskText.enabled = true
+                    button.visible = true
                 }
                 onPressAndHold: {
-                    listModel.remove(root)
+                    view.currentIndex = index
+
+                    listModel.remove(view.currentIndex)
                 }
             }
 
@@ -45,14 +52,15 @@ ScrollView {
                 width: 50
                 anchors.verticalCenter: parent.verticalCenter
             }
+
             TextInput {
                 id: taskText
                 anchors.left: checkBox.right
                 width: parent.width - (button.width * 3)
                 height: checkBox.height
-                color: Material.toolTextColor
-                maximumLength: 45
                 text: idText
+                color: Material.toolTextColor
+                maximumLength: 90
                 selectByMouse: true
                 font.weight: Font.Normal
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -63,9 +71,6 @@ ScrollView {
                 renderType: Text.NativeRendering
                 anchors.verticalCenter: parent.verticalCenter
                 enabled: false
-                onTextChanged: {
-                    button.visible = true
-                }
             }
             Rectangle {
                 id: button

@@ -28,7 +28,6 @@ ApplicationWindow {
         var datamodel = []
         for (var i = 0; i < scrollAreas.list.count; ++i) {
             datamodel.push(scrollAreas.list.get(i))
-
             console.log("SAVE: " + JSON.stringify(datamodel))
         }
         dataStore = JSON.stringify(datamodel)
