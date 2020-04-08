@@ -10,33 +10,16 @@ ApplicationWindow {
     height: 640
     title: qsTr("NoteManager")
     id: mainWindow
-    property string dataStore: ""
+    contentOrientation: Qt.Vertical
 
-    Component.onCompleted: {
-        if (dataStore) {
-            scrollAreas.list.clear()
-            var dataModel = JSON.parse(dataStore)
-
-            for (var i = 0; i < dataStore.length; ++i) {
-                scrollAreas.list.append(dataModel[i])
-                console.log("LOAD")
-            }
-        }
+    onOpenglContextCreated: {
+        scrollAreas.list.load()
     }
 
-    Component.onDestruction: {
-        var datamodel = []
-        for (var i = 0; i < scrollAreas.list.count; ++i) {
-            datamodel.push(scrollAreas.list.get(i))
-            console.log("SAVE: " + JSON.stringify(datamodel))
-        }
-        dataStore = JSON.stringify(datamodel)
+    onClosing: {
+        scrollAreas.list.save()
     }
 
-    Settings {
-        property alias datastore: mainWindow.dataStore
-        id: settings
-    }
     ScrollAreas {
         id: scrollAreas
         anchors.fill: parent
@@ -59,10 +42,7 @@ ApplicationWindow {
             id: mouse
             anchors.fill: addButton
             onClicked: {
-
-                scrollAreas.list.append({
-                                            "idText": ""
-                                        })
+                scrollAreas.list.addItem()
             }
         }
     }

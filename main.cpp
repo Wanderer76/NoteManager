@@ -1,5 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include"notemodel.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -13,9 +15,15 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
-    app.setOrganizationName("ArtyomCompany");
+    /*app.setOrganizationName("ArtyomCompany");
         app.setOrganizationDomain("temacompany.com");
-        app.setApplicationName("NoteManager");
+        app.setApplicationName("NoteManager");*/
+
+    const NoteModel model;
+
+    qmlRegisterType<NoteModel>("NoteModel",1,0,"NoteModel");
+
+
     engine.load(url);
 
     return app.exec();
